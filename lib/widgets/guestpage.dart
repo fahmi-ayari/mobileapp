@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:campingbazar/widgets/signin.dart';
+import 'package:campingbazar/widgets/searchbar.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -62,7 +63,7 @@ class _GuestPageState extends State<GuestPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SearchPage(), // Placeholder
+                  builder: (context) => const SearchPage(),
                 ),
               );
             },
@@ -72,34 +73,46 @@ class _GuestPageState extends State<GuestPage> {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: _pages[_selectedIndex], // Display the selected page
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.yellow,
-        unselectedItemColor: Colors.white,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle, color: Colors.red),
-            label: 'Add',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Messages',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Shadow color
+              blurRadius: 10, // Blur radius for the shadow
+              offset: const Offset(0, -5), // Shadow appears above the bar
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.black, // Black background
+          selectedItemColor: Colors.yellow, // Yellow for the selected icon
+          unselectedItemColor: Colors.black, // White for unselected icons
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorites',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle, color: Colors.red),
+              label: 'Add',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'Messages',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -151,14 +164,14 @@ class Product {
   final String seller;
   final String imageUrl;
   final double price;
-  bool isLiked;
+  bool isLiked; // Track if the product is liked
 
   Product({
     required this.name,
     required this.seller,
     required this.imageUrl,
     required this.price,
-    this.isLiked = false,
+    this.isLiked = false, // Default to not liked
   });
 }
 
@@ -179,98 +192,105 @@ final List<Product> products = [
   ),
 ];
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
 
   const ProductCard({required this.product, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SignInPage()),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
-              child: Image.network(
-                product.imageUrl,
-                height: 150,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                product.name,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                product.seller,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "${product.price.toStringAsFixed(2)} DT",
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<ProductCard> createState() => _ProductCardState();
 }
 
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+class _ProductCardState extends State<ProductCard> {
+  void toggleLike() {
+    setState(() {
+      widget.product.isLiked = !widget.product.isLiked;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Search"),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text("Search Page"),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Product Image
+              ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
+                child: Image.network(
+                  widget.product.imageUrl,
+                  height: 150,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Product Name
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  widget.product.name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              // Product Seller
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  widget.product.seller,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              // Product Price
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "${widget.product.price.toStringAsFixed(2)} DT",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Heart Icon at the Bottom Right
+          Positioned(
+            bottom: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: toggleLike,
+              child: Icon(
+                widget.product.isLiked ? Icons.favorite : Icons.favorite_border,
+                color: widget.product.isLiked ? Colors.red : Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

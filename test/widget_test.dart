@@ -7,8 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:campingbazar/main.dart';
+import 'package:campingbazar/widgets/campingbazar.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

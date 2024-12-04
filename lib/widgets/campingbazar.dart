@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:campingbazar/widgets/Getstarted.dart';
 
-class CampingBazzarScreen extends StatefulWidget {
-  const CampingBazzarScreen({super.key});
-
-  @override
-  State<CampingBazzarScreen> createState() => _CampingBazzarScreenState();
+void main() {
+  runApp(const CampingBazzarApp());
 }
 
-class _CampingBazzarScreenState extends State<CampingBazzarScreen> {
+class CampingBazzarApp extends StatefulWidget {
+  const CampingBazzarApp({super.key});
+
+  @override
+  State<CampingBazzarApp> createState() => _CampingBazzarScreenState();
+}
+
+class _CampingBazzarScreenState extends State<CampingBazzarApp> {
   bool _isHovered = false;
 
   @override

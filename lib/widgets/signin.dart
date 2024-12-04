@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:campingbazar/widgets/SocialLoginButton.dart';
+import 'package:campingbazar/widgets/socialloginbutton.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInPage extends StatelessWidget {

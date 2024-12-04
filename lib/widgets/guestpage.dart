@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:campingbazar/widgets/signin.dart';
 
-void mainn() {
+void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: GuestPage(),
@@ -55,6 +55,19 @@ class _GuestPageState extends State<GuestPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchPage(), // Placeholder
+                ),
+              );
+            },
+          ),
+        ],
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -62,7 +75,7 @@ class _GuestPageState extends State<GuestPage> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
         selectedItemColor: Colors.yellow,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
@@ -138,14 +151,14 @@ class Product {
   final String seller;
   final String imageUrl;
   final double price;
-  bool isLiked; // Track if the product is liked
+  bool isLiked;
 
   Product({
     required this.name,
     required this.seller,
     required this.imageUrl,
     required this.price,
-    this.isLiked = false, // Default to not liked
+    this.isLiked = false,
   });
 }
 
@@ -164,57 +177,17 @@ final List<Product> products = [
         "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
     price: 143.45,
   ),
-  Product(
-    name: "Camping Tent",
-    seller: "Nermin Sanaa",
-    imageUrl:
-        "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
-    price: 143.45,
-  ),
-  Product(
-    name: "Camping Tent",
-    seller: "Nermin Sanaa",
-    imageUrl:
-        "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
-    price: 143.45,
-  ),
-  Product(
-    name: "Camping Tent",
-    seller: "Nermin Sanaa",
-    imageUrl:
-        "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
-    price: 143.45,
-  ),
-  Product(
-    name: "Camping Tent",
-    seller: "Nermin Sanaa",
-    imageUrl:
-        "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
-    price: 143.45,
-  ),
 ];
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
 
   const ProductCard({required this.product, super.key});
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  void toggleLike() {
-    setState(() {
-      widget.product.isLiked = !widget.product.isLiked;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigate to the Sign In page
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const SignInPage()),
@@ -232,78 +205,72 @@ class _ProductCardState extends State<ProductCard> {
             ),
           ],
         ),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Product Image
-                ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(12)),
-                  child: Image.network(
-                    widget.product.imageUrl,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Product Name
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    widget.product.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                // Product Seller
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    widget.product.seller,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                // Product Price
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "${widget.product.price.toStringAsFixed(2)} DT",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-              ],
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.network(
+                product.imageUrl,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-            // Heart Icon at the Bottom Right
-            Positioned(
-              bottom: 8,
-              right: 8,
-              child: GestureDetector(
-                onTap: toggleLike,
-                child: Icon(
-                  widget.product.isLiked
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  color: widget.product.isLiked ? Colors.red : Colors.white,
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                product.name,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                product.seller,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "${product.price.toStringAsFixed(2)} DT",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Search"),
+      ),
+      body: const Center(
+        child: Text("Search Page"),
       ),
     );
   }

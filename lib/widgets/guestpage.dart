@@ -1,13 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:campingbazar/widgets/signin.dart';
-import 'package:campingbazar/widgets/searchbar.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: GuestPage(),
-  ));
-}
 
 class GuestPage extends StatefulWidget {
   const GuestPage({super.key});
@@ -18,21 +9,58 @@ class GuestPage extends StatefulWidget {
 
 class _GuestPageState extends State<GuestPage> {
   int _selectedIndex = 0; // Current index for the bottom navigation bar
+  String _searchQuery = '';
+  bool _isSearching = false;
 
-  final List<Widget> _pages = [
-    const ProductGridPage(), // Home page
-    const SizedBox(), // Placeholder for Favorites page
-    const SizedBox(), // Placeholder for Add page
-    const SizedBox(), // Placeholder for Messages page
-    const SizedBox(), // Placeholder for Profile page
+  final List<Product> _allProducts = [
+    Product(
+      name: 'Camping Chair',
+      category: 'Chairs',
+      price: 195.00,
+      imageUrl:
+          'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
+    ),
+    Product(
+      name: 'Camping Tent',
+      category: 'Tents',
+      price: 143.45,
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?pid=ImgDet&rs=1',
+    ),
+    Product(
+      name: 'Sleeping Bag',
+      category: 'Sleeping Bags',
+      price: 99.99,
+      imageUrl:
+          'https://th.bing.com/th/id/OIP.oI5MggmlFZR6XrTO3hLE3wHaHa?pid=ImgDet&rs=1',
+    ),
   ];
+
+  List<Product> _filteredProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredProducts = List.from(_allProducts); // Start with all products
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+      _filteredProducts = _allProducts.where((product) {
+        return product.name.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    });
+  }
 
   void _onItemTapped(int index) {
     if (index != 0) {
       // Redirect to Sign In Page for all tabs except Home
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SignInPage()),
+        MaterialPageRoute(
+            builder: (context) =>
+                const Center(child: Text("Sign In Placeholder"))),
       );
     } else {
       setState(() {
@@ -48,46 +76,83 @@ class _GuestPageState extends State<GuestPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text(
-          "Home",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: _isSearching
+            ? TextField(
+                autofocus: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                ),
+                onChanged: _onSearchChanged,
+              )
+            : const Text(
+                "Home",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: Icon(
+              _isSearching ? Icons.close : Icons.search,
+              color: Colors.yellow,
+            ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchPage(),
-                ),
-              );
+              setState(() {
+                if (_isSearching) {
+                  _isSearching = false;
+                  _searchQuery = '';
+                  _filteredProducts = List.from(_allProducts);
+                } else {
+                  _isSearching = true;
+                }
+              });
             },
           ),
         ],
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: _pages[_selectedIndex], // Display the selected page
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: _filteredProducts.isNotEmpty
+            ? GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: _filteredProducts.length,
+                itemBuilder: (context, index) {
+                  final product = _filteredProducts[index];
+                  return ProductCard(product: product);
+                },
+              )
+            : const Center(
+                child: Text(
+                  'No products found',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.black,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
-              blurRadius: 10, // Blur radius for the shadow
-              offset: const Offset(0, -5), // Shadow appears above the bar
+              color: Colors.grey.withOpacity(0.3),
+              blurRadius: 5,
+              offset: const Offset(0, -2),
             ),
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: Colors.black, // Black background
-          selectedItemColor: Colors.yellow, // Yellow for the selected icon
-          unselectedItemColor: Colors.black, // White for unselected icons
+          backgroundColor: Colors.black,
+          selectedItemColor: Colors.yellow,
+          unselectedItemColor: Colors.white,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: const [
@@ -118,79 +183,20 @@ class _GuestPageState extends State<GuestPage> {
   }
 }
 
-class ProductGridPage extends StatelessWidget {
-  const ProductGridPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            "Products🔥",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return ProductCard(product: product);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class Product {
   final String name;
-  final String seller;
-  final String imageUrl;
+  final String category;
   final double price;
-  bool isLiked; // Track if the product is liked
+  final String imageUrl;
+  bool isLiked = false;
 
   Product({
     required this.name,
-    required this.seller,
-    required this.imageUrl,
+    required this.category,
     required this.price,
-    this.isLiked = false, // Default to not liked
+    required this.imageUrl,
   });
 }
-
-final List<Product> products = [
-  Product(
-    name: "Camping Chair",
-    seller: "Ahmed ben Echikh",
-    imageUrl:
-        "https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg",
-    price: 195.00,
-  ),
-  Product(
-    name: "Camping Tent",
-    seller: "Nermin Sanaa",
-    imageUrl:
-        "https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?rs=1&pid=ImgDetMain",
-    price: 143.45,
-  ),
-];
 
 class ProductCard extends StatefulWidget {
   final Product product;
@@ -253,26 +259,14 @@ class _ProductCardState extends State<ProductCard> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Product Seller
+              // Product Category and Price
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  widget.product.seller,
+                  "${widget.product.category} - ${widget.product.price.toStringAsFixed(2)} DT",
                   style: const TextStyle(
                     fontSize: 12,
                     color: Colors.grey,
-                  ),
-                ),
-              ),
-              // Product Price
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "${widget.product.price.toStringAsFixed(2)} DT",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
                   ),
                 ),
               ),

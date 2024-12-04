@@ -91,6 +91,9 @@ class _GuestPageState extends State<GuestPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         backgroundColor: Colors.black,
         elevation: 0,
         title: _isSearching

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Product {
+  final String owner;
   final String name;
   final String category;
   final double price;
@@ -8,6 +9,7 @@ class Product {
   bool isLiked = false;
 
   Product({
+    required this.owner,
     required this.name,
     required this.category,
     required this.price,

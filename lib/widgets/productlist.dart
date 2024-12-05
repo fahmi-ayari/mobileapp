@@ -15,6 +15,30 @@ class Product {
   });
 }
 
+final List<Product> products = [
+  Product(
+    name: 'Camping Chair',
+    category: 'Chairs',
+    price: 195.00,
+    imageUrl:
+        'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
+  ),
+  Product(
+    name: 'Camping Tent',
+    category: 'Tents',
+    price: 143.45,
+    imageUrl:
+        'https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?pid=ImgDet&rs=1',
+  ),
+  Product(
+    name: 'Sleeping Bag',
+    category: 'Sleeping Bags',
+    price: 99.99,
+    imageUrl:
+        'https://th.bing.com/th/id/OIP.oI5MggmlFZR6XrTO3hLE3wHaHa?pid=ImgDet&rs=1',
+  ),
+];
+
 class ProductCard extends StatefulWidget {
   final Product product;
 

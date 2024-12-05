@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:campingbazar/widgets/productlist.dart';
+import 'FavoritesPage.dart';
 
 class GuestPage extends StatefulWidget {
   const GuestPage({super.key});
@@ -12,30 +13,7 @@ class _GuestPageState extends State<GuestPage> {
   int _selectedIndex = 0; // Current index for the bottom navigation bar
   String _searchQuery = '';
   bool _isSearching = false;
-
-  final List<Product> _allProducts = [
-    Product(
-      name: 'Camping Chair',
-      category: 'Chairs',
-      price: 195.00,
-      imageUrl:
-          'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
-    ),
-    Product(
-      name: 'Camping Tent',
-      category: 'Tents',
-      price: 143.45,
-      imageUrl:
-          'https://th.bing.com/th/id/OIP.cqTzyxOEtXnlCXOBp1fbZQHaHa?pid=ImgDet&rs=1',
-    ),
-    Product(
-      name: 'Sleeping Bag',
-      category: 'Sleeping Bags',
-      price: 99.99,
-      imageUrl:
-          'https://th.bing.com/th/id/OIP.oI5MggmlFZR6XrTO3hLE3wHaHa?pid=ImgDet&rs=1',
-    ),
-  ];
+  final List<Product> _allProducts = products;
 
   List<Product> _filteredProducts = [];
 
@@ -55,7 +33,13 @@ class _GuestPageState extends State<GuestPage> {
   }
 
   void _onItemTapped(int index) {
-    if (index != 0) {
+    if (index == 1) {
+      // Check if the Favorites tab is selected
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const FavoritesPage()),
+      );
+    } else if (index != 0) {
       // Redirect to Sign In Page for all tabs except Home
       Navigator.push(
         context,
@@ -100,7 +84,7 @@ class _GuestPageState extends State<GuestPage> {
           IconButton(
             icon: Icon(
               _isSearching ? Icons.close : Icons.search,
-              color: Colors.yellow,
+              color: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -153,7 +137,7 @@ class _GuestPageState extends State<GuestPage> {
         child: BottomNavigationBar(
           backgroundColor: Colors.black,
           selectedItemColor: Colors.yellow,
-          unselectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: const [

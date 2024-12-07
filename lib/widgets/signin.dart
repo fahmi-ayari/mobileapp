@@ -121,7 +121,7 @@ class SignInPage extends StatelessWidget {
 
               // Social Login Buttons
               SocialLoginButton(
-                text: "Sign Up with Google",
+                text: "Sign In with Google",
                 icon: FontAwesomeIcons
                     .google, // Use FontAwesomeIcons or custom asset
                 color: Colors.white,
@@ -130,7 +130,7 @@ class SignInPage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               SocialLoginButton(
-                text: "Sign Up with Facebook",
+                text: "Sign In with Facebook",
                 icon: Icons.facebook,
                 color: Colors.blue,
                 textColor: Colors.white,

@@ -30,7 +30,7 @@ class _GuestPageState extends State<GuestPage> {
       category: 'Tents',
       price: 143.45,
       imageUrl:
-          'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
+          'https://th.bing.com/th/id/OIP.kDwjgW1AikkIooKUH99XiAHaHa?rs=1&pid=ImgDetMain',
     ),
     Product(
       name: 'Sleeping Bag',
@@ -38,7 +38,7 @@ class _GuestPageState extends State<GuestPage> {
       category: 'Sleeping Bags',
       price: 99.99,
       imageUrl:
-          'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
+          'https://th.bing.com/th/id/OIP.it7_a1Az2WdPwOdriO4p_gHaJ4?w=750&h=1000&rs=1&pid=ImgDetMai',
     ),
   ];
 

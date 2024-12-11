@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:campingbazar/widgets/productlist.dart';
 import 'package:campingbazar/widgets/signin.dart';
+import 'favoritespage.dart';
+import 'productdetailsPage.dart';
+import 'addarticle.dart';
 
 class GuestPage extends StatefulWidget {
   const GuestPage({super.key});
@@ -13,34 +16,10 @@ class _GuestPageState extends State<GuestPage> {
   int _selectedIndex = 0; // Current index for the bottom navigation bar
   String _searchQuery = '';
   bool _isSearching = false;
+
   String _searchType = 'name'; // Default search type
 
-  final List<Product> _allProducts = [
-    Product(
-      name: 'Camping Chair',
-      owner: 'ahmed ben echikh',
-      category: 'Chairs',
-      price: 195.00,
-      imageUrl:
-          'https://cdn.hepsiglobal.com/prod/media/23198/20240903/71fab4e5-71b7-4061-a61f-01b29679de23.jpg',
-    ),
-    Product(
-      name: 'Camping Tent',
-      owner: 'nermine sanaa',
-      category: 'Tents',
-      price: 143.45,
-      imageUrl:
-          'https://th.bing.com/th/id/OIP.kDwjgW1AikkIooKUH99XiAHaHa?rs=1&pid=ImgDetMain',
-    ),
-    Product(
-      name: 'Sleeping Bag',
-      owner: 'ahmed ben echikh',
-      category: 'Sleeping Bags',
-      price: 99.99,
-      imageUrl:
-          'https://th.bing.com/th/id/OIP.it7_a1Az2WdPwOdriO4p_gHaJ4?w=750&h=1000&rs=1&pid=ImgDetMai',
-    ),
-  ];
+  final List<Product> _allProducts = products;
 
   List<Product> _filteredProducts = [];
 
@@ -73,7 +52,19 @@ class _GuestPageState extends State<GuestPage> {
   }
 
   void _onItemTapped(int index) {
-    if (index != 0) {
+    if (index == 1) {
+      // Check if the Favorites tab is selected
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const FavoritesPage()),
+      );
+    } else if (index == 2) {
+      // Redirect to Sign In Page for all tabs except Home
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddArticle()),
+      );
+    } else if (index != 0) {
       // Redirect to Sign In Page for all tabs except Home
       Navigator.push(
         context,
@@ -201,7 +192,15 @@ class _GuestPageState extends State<GuestPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInPage()),
+                                builder: (context) => ProductDetailsPage(
+                                  name: product.name,
+                                  owner: product.owner,
+                                  price: product.price,
+                                  imageUrl: product.imageUrl,
+                                  description:
+                                      "This is a high-quality product that meets your camping needs perfectly!",
+                                ),
+                              ),
                             );
                           },
                           child: ProductCard(product: product),

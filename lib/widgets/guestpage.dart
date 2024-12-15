@@ -4,6 +4,8 @@ import 'package:campingbazar/widgets/signin.dart';
 import 'favoritespage.dart';
 import 'productdetailsPage.dart';
 import 'addarticle.dart';
+import 'package:campingbazar/messages.dart';
+import 'package:campingbazar/profile.dart';
 
 class GuestPage extends StatefulWidget {
   const GuestPage({super.key});
@@ -62,13 +64,18 @@ class _GuestPageState extends State<GuestPage> {
       // Redirect to Sign In Page for all tabs except Home
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const AddArticle()),
+        MaterialPageRoute(builder: (context) => const AddArticlePage()),
       );
-    } else if (index != 0) {
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MessageForumPage()),
+      );
+    } else if (index == 4) {
       // Redirect to Sign In Page for all tabs except Home
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SignInPage()),
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
     } else {
       setState(() {

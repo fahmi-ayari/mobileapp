@@ -53,7 +53,7 @@ class _NextPageState extends State<PageTow> {
   }
 
   void _startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
       if (_currentPage < _images.length - 1) {
         _currentPage++;
       } else {

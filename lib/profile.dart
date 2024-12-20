@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           'Profile',
           style: TextStyle(color: Colors.white),
@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
           Center(
             child: CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage(
+              backgroundImage: const AssetImage(
                   'assets/images/user.jpg'), // User's profile picture
               backgroundColor: Colors.grey[800],
             ),

@@ -64,7 +64,7 @@ class SignInPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
-                  suffixIcon: Icon(
+                  suffixIcon: const Icon(
                     Icons.visibility_off,
                     color: Colors.white54,
                   ),

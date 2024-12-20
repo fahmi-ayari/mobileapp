@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:campingbazar/widgets/productlist.dart';
-import 'package:campingbazar/widgets/signin.dart';
 import 'favoritespage.dart';
 import 'productdetailsPage.dart';
 import 'addarticle.dart';

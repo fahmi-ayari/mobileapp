@@ -53,7 +53,7 @@ class ProductDetailsPage extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class ProductDetailsPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Seller: $owner',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -70,7 +70,7 @@ class ProductDetailsPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   '\$$price',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.yellow,

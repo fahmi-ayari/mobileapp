@@ -65,11 +65,11 @@ class _AddArticlePageState extends State<AddArticlePage> {
             const SizedBox(height: 16),
             // Article Name Field
             TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               controller: nameController,
               decoration: InputDecoration(
                 labelText: "Article Name",
-                labelStyle: TextStyle(color: Colors.grey),
+                labelStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(color: Colors.white),
@@ -85,7 +85,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 labelText: "Category",
-                labelStyle: TextStyle(color: Colors.grey),
+                labelStyle: const TextStyle(color: Colors.grey),
                 // Label text in white
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -96,13 +96,14 @@ class _AddArticlePageState extends State<AddArticlePage> {
                 ),
               ),
               dropdownColor: Colors.black, // Dropdown menu background color
-              style: TextStyle(color: Colors.white), // Selected text color
+              style:
+                  const TextStyle(color: Colors.white), // Selected text color
               items: categories
                   .map((category) => DropdownMenuItem<String>(
                         value: category,
                         child: Text(
                           category,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white), // Dropdown items text color
                         ),
                       ))
@@ -116,12 +117,12 @@ class _AddArticlePageState extends State<AddArticlePage> {
             const SizedBox(height: 16),
             // Price Field
             TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               controller: priceController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "Price (DT)",
-                labelStyle: TextStyle(color: Colors.grey),
+                labelStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -134,12 +135,12 @@ class _AddArticlePageState extends State<AddArticlePage> {
             const SizedBox(height: 16),
             // Description Field
             TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               controller: descriptionController,
               maxLines: 3,
               decoration: InputDecoration(
                 labelText: "Description",
-                labelStyle: TextStyle(color: Colors.grey),
+                labelStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -152,11 +153,11 @@ class _AddArticlePageState extends State<AddArticlePage> {
             const SizedBox(height: 16),
             // Contact Information Field
             TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               controller: contactController,
               decoration: InputDecoration(
                 labelText: "Contact Information",
-                labelStyle: TextStyle(color: Colors.grey),
+                labelStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

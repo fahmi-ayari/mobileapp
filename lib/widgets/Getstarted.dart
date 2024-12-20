@@ -17,7 +17,7 @@ class NextPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        body: PageTow());
+        body: const PageTow());
   }
 }
 

@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:campingbazar/widgets/chatpage.dart';
+import 'package:campingbazar/widgets/forumpage.dart'; // Import ForumPage
 
 class MessageForumPage extends StatefulWidget {
-  const MessageForumPage({Key? key}) : super(key: key);
+  const MessageForumPage({super.key});
 
   @override
   _MessageForumPageState createState() => _MessageForumPageState();
 }
 
 class _MessageForumPageState extends State<MessageForumPage> {
-  bool isMessagesSelected = true; // To toggle between Messages and Forum
+  bool isMessagesSelected = true;
 
-  // Fake conversation data
-  final List<String> fakeMessages = ["Ahmed", "Oussema", "Adam", "Anis"];
-  final List<String> fakeForumThreads = [
-    "Camping Tips",
-    "Best Places to Camp",
-    "Share Your Gear",
-    "Ask for Help"
+  final List<Map<String, String>> messages = [
+    {
+      "name": "Fahmi",
+      "lastMessage": "Hello, how are you?",
+      "time": "12:45 PM",
+      "userPhoto":
+          "https://scontent.ftun9-1.fna.fbcdn.net/v/t39.30808-1/458470406_1943095399466350_8024828006208186735_n.jpg?stp=dst-jpg_s160x160_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=JXmQ5rmsbJ8Q7kNvgHmNFOt&_nc_zt=24&_nc_ht=scontent.ftun9-1.fna&_nc_gid=Az-8dX2efCrx2Kp9CmJtCfo&oh=00_AYAJh1ro2WGGZI5xtchZjh5f81hr1L_nt7Fe-EF3GVg9BA&oe=676B718D" // Replace with actual image URL
+    },
+    {
+      "name": "Azer",
+      "lastMessage": "Let's meet up tomorrow.",
+      "time": "1:30 PM",
+      "userPhoto":
+          "https://scontent.ftun9-1.fna.fbcdn.net/v/t39.30808-1/326095936_740121707362877_562017269399807385_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_ohc=6wJoo9_O8icQ7kNvgFXgNnF&_nc_zt=24&_nc_ht=scontent.ftun9-1.fna&_nc_gid=Ayr2DPSeWIoyvmngR5udicc&oh=00_AYCvhJ2J6xQcnIWaNtMfL6iu-qrUPa3lJETSrihLRFC97Q&oe=676B471D" // Replace with actual image URL
+    },
+    {
+      "name": "Adam",
+      "lastMessage": "Check out this cool place!",
+      "time": "3:15 PM",
+      "userPhoto":
+          "https://scontent.ftun9-1.fna.fbcdn.net/v/t39.30808-1/438081336_3643555262529973_3592491024185659053_n.jpg?stp=c0.0.1933.1933a_dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_ohc=UE7ObCLS7CgQ7kNvgHnAs_B&_nc_zt=24&_nc_ht=scontent.ftun9-1.fna&_nc_gid=AEIgM5kj8wufJT78tP33zzI&oh=00_AYAvn117chVHp2HnizKJPmwbY2PUb_1AGIC56VgwuPfjtA&oe=676B62F3" // Replace with actual image URL
+    },
+    {
+      "name": "Anis",
+      "lastMessage": "What time is the event?",
+      "time": "4:00 PM",
+      "userPhoto":
+          "https://scontent.ftun9-1.fna.fbcdn.net/v/t39.30808-6/402652185_3971425686426311_4901327544766063296_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=IBbnakAIu4AQ7kNvgG2pYv_&_nc_zt=23&_nc_ht=scontent.ftun9-1.fna&_nc_gid=A1FKlBiopnLhNNGiKwE7nqm&oh=00_AYCPL16TiTl6BJ3RLq990z5bZAG65zeU5EusqC2ihpfsLg&oe=676B4E1E" // Replace with actual image URL
+    },
   ];
 
   @override
@@ -24,16 +48,17 @@ class _MessageForumPageState extends State<MessageForumPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
-          "Messages & Forum",
+          "Chats",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
-          // Horizontal Row for Buttons
+          // Navigation Buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -41,7 +66,10 @@ class _MessageForumPageState extends State<MessageForumPage> {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor:
-                        isMessagesSelected ? Colors.yellow : Colors.black,
+                        isMessagesSelected ? Colors.grey : Colors.black,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(20))),
                   ),
                   onPressed: () {
                     setState(() {
@@ -58,7 +86,10 @@ class _MessageForumPageState extends State<MessageForumPage> {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor:
-                        isMessagesSelected ? Colors.black : Colors.yellow,
+                        isMessagesSelected ? Colors.black : Colors.grey,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.only(topLeft: Radius.circular(20))),
                   ),
                   onPressed: () {
                     setState(() {
@@ -73,198 +104,88 @@ class _MessageForumPageState extends State<MessageForumPage> {
               ),
             ],
           ),
-          const Divider(),
+          const Divider(color: Colors.grey),
 
-          // Dynamic Content
+          // Display Messages Section or Forum Section
           Expanded(
             child: isMessagesSelected
                 ? ListView.builder(
-                    itemCount: fakeMessages.length,
+                    itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          radius: 24,
-                          backgroundImage: AssetImage(
-                              'assets/images/${fakeMessages[index]}.jpg'),
-                          backgroundColor: Colors
-                              .grey[300], // Fallback if image is unavailable
+                      final message = messages[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[800],
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 5,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: NetworkImage(
+                                  message['userPhoto']!), // Use specific photo
+                              backgroundColor: Colors.grey[700],
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.yellow, width: 2),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  message['name']!,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  message['time']!,
+                                  style: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            subtitle: Text(
+                              message['lastMessage']!,
+                              style: TextStyle(
+                                color: Colors.grey[300],
+                                fontSize: 14,
+                              ),
+                            ),
+                            onTap: () {
+                              // Navigate to the ChatPage
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                      userName: message['name']!,
+                                      userPhoto: message['userPhoto']!),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                        title: Text(
-                          fakeMessages[index],
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: const Text(
-                          "Tap to chat...",
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                      userName: fakeMessages[index],
-                                    )),
-                          );
-                        },
                       );
                     },
                   )
-                : ListView.builder(
-                    itemCount: fakeForumThreads.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: const Icon(Icons.forum, color: Colors.yellow),
-                        title: Text(fakeForumThreads[index],
-                            style: TextStyle(color: Colors.white)),
-                        subtitle: const Text("Join the discussion!"),
-                        onTap: () {
-                          // You can enhance this to open threaded discussions
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  "Forum thread: '${fakeForumThreads[index]}' clicked."),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ChatPage extends StatefulWidget {
-  final String userName;
-
-  const ChatPage({Key? key, required this.userName}) : super(key: key);
-
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  final TextEditingController messageController = TextEditingController();
-  final List<String> messages = []; // Store sent messages
-
-  // Function to send a message
-  void _sendMessage() {
-    if (messageController.text.isNotEmpty) {
-      setState(() {
-        messages.add(messageController.text); // Add message to the list
-        messageController.clear(); // Clear the input field
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Row(
-          children: [
-            // User's Photo
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage(
-                'assets/images/${widget.userName}.jpg',
-              ),
-              backgroundColor: Colors.grey[700], // Fallback color
-            ),
-            const SizedBox(width: 12.0),
-            // User's Name
-            Text(
-              widget.userName,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Column(
-        children: [
-          // Messages List
-          Expanded(
-            child: ListView.builder(
-              reverse: true, // Start from the bottom
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return Align(
-                  alignment: Alignment.centerRight, // Align to the right
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8.0),
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      color: Colors.yellow[700], // Yellow bubble color
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0),
-                        bottomLeft: Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Text(
-                      messages[index],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Input Field and Send Button
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      return Align(
-                        alignment:
-                            Alignment.centerRight, // Align message to the right
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 4.0,
-                            horizontal: 8.0,
-                          ),
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.yellow[700], // Message bubble color
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(16.0),
-                              topRight: Radius.circular(16.0),
-                              bottomLeft: Radius.circular(16.0),
-                            ),
-                          ),
-                          child: Text(
-                            messages[index],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Colors.yellow),
-                  onPressed: _sendMessage,
-                ),
-              ],
-            ),
+                : ForumPage(), // Display ForumPage when Forum tab is selected
           ),
         ],
       ),
